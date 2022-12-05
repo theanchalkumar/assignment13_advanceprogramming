@@ -1,0 +1,114 @@
+1.
+
+def remove_letters(l,s):
+    i = 0
+    while True:
+        if len(s) == 0:
+            break
+        else:
+            if s[i] in l:
+                if s.count(s[i]) > 1 and(s.count(s[i]) != l.count(s[i])):
+                    l.remove(s[i])
+                    s = s.replace(s[i],'')
+                else:
+                    l.remove(s[i])                    
+                    s = s.replace(s[i],'',1)
+            else:
+                i += 1
+    return l
+
+print(remove_letters(["s", "t", "r", "i", "n", "g", "w"], "string"))
+print(remove_letters(["b", "b", "l", "l", "g", "n", "o", "a", "w"], "balloon"))
+print(remove_letters(["d", "b", "t", "e", "a", "i"], "edabit") )
+
+
+2.
+
+# formula is number of blocks = fun(step) + step * 3 + step * 2 -1
+# where fun(step) = step + fun(step  - 1)
+
+def fun(n):
+    if n == 1:
+        return 1
+    else:
+        return n + fun(n-1)
+    
+def blocks(step):
+    return fun(step) + step * 3 + step * 2 -1
+
+
+print(blocks(1))
+print(blocks(5))
+print(blocks(2))
+
+
+3.
+
+def my_sub(n1,n2):
+    if n2 > n1:
+        return n2 - n1 % n2
+    elif n1 > n2:
+        return n1 - n2 % n1
+    elif n1 == 0 and n2 == 0:
+        return 0
+    
+print(my_sub(5,9))
+print(my_sub(10,30))
+print(my_sub(0,0))
+
+
+4.
+
+def add_bill(s):
+    sum1 = ''
+    for i in s.split(','):
+        if 'd' in i:
+            sum1 += i
+    sum1 = sum1.replace('k','000')
+    bill = 0
+    for i in sum1.split('d')[1:]:
+        bill += int(i)
+    
+    return bill    
+                
+print(add_bill("d20,p40,p60,d50"))
+print(add_bill("p30,d20,p60,d150,p360"))
+print(add_bill("p30,d2k,p60,d200,p360"))
+
+
+5.
+
+# Appraoch no. 1 using numpy array
+
+import numpy as np
+
+def flip_list(l):
+    list1 =  np.array(l)
+    
+    if list1.ndim == 1:
+        i = list1.shape
+        return list1.reshape(i[0],1)
+    else:
+        i,j = list1.shape
+        return list1.reshape(j,i)
+        
+print(flip_list([1,2,3,4]))
+
+print(flip_list([[5],[6],[7]]))
+print(flip_list([]))
+
+# Approach no. 2 
+def flip_list1(l):
+    j = 0
+    for i in range(len(l)):
+        if type(l[i]) == list:
+            l[i] = int(str(l[i]).replace('[','').replace(']',''))
+        elif type(l[i]) == int:
+            l[i] = [l[i]]
+
+    return l       
+
+print(flip_list1([1,2,3,4]))
+
+print(flip_list1([[5],[6],[7]]))
+print(flip_list([]))
